@@ -1,0 +1,36 @@
+
+<header class="sticky top-30 lg:top-20  w-full bg-white py-3 px-4 md:px-8">
+    <div class="d-flex align-items-center gap-4">
+
+        <div class="flex-grow-1">
+            <form hx-get="{{ request.path }}" 
+                  hx-target="#search-results-container" 
+                  hx-indicator="#htmx-search-spinner"
+                  hx-swap="outerHTML"
+                  hx-push-url="false">
+                <div class="htmx-search-bar shadow-sm">
+                    <i class="fas fa-search htmx-search-icon text-muted"></i>
+                    <input type="text" 
+                        name="q" 
+                        class="htmx-search-input" 
+                        placeholder="Search records.."
+                        value="{{ query }}"
+                        autocomplete="off"
+                    >
+                    <div id="htmx-search-spinner" class="htmx-indicator">
+                        <svg width="20" height="20" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <g class="htmx-search-spinner">
+                                <circle cx="12" cy="12" r="9.5" fill="none" stroke="#1a73e8" stroke-width="3" stroke-linecap="round" stroke-dasharray="40 20"></circle>
+                            </g>
+                        </svg>
+                    </div>
+      
+                </div>
+            </form>
+        </div>
+    </div>
+</header>
+
+<main class="flex-grow px-4 py-6 md:px-8 lg:max-w-4xl">
+    <div id="search-results-container" class="animate-fade-in"></div>
+</main>

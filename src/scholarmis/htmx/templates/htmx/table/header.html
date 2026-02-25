@@ -1,0 +1,60 @@
+{% load export_url from django_tables2 %}
+{% load humanize %}
+
+<div class="sticky top-0 z-30 bg-white border-t border-b border-gray-200 flex items-center justify-between px-3 py-3 h-[51px]">
+    <span class="text-sm font-semibold text-slate-700 tracking-wider">
+        Total Records: {{ table.rows|length|intcomma }}
+    </span>
+
+    {% if view.export_formats %} 
+
+    <div class="flex items-center gap-2">
+        <div x-data="{ open: false }" @click.away="open = false" class="relative inline-block text-left">
+            
+            <button @click="open = !open" 
+                    type="button" 
+                    class="inline-flex items-center gap-2 px-4 py-2 text-sm font-semibold text-gray-600 bg-white border border-gray-200 rounded-lg shadow-sm hover:text-indigo-600 hover:border-indigo-300 hover:bg-indigo-50/30 focus:outline-none transition-all duration-200">
+                <svg class="w-4.5 h-4.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                </svg>
+                <span>Export Data</span>
+                <svg class="w-4 h-4 opacity-50 transition-transform duration-300" :class="open ? 'rotate-180' : ''" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                </svg>
+            </button>
+    
+            <div x-show="open" 
+                 x-transition:enter="transition ease-out duration-150"
+                 x-transition:enter-start="opacity-0 translate-y-1 scale-95"
+                 x-transition:enter-end="opacity-100 translate-y-0 scale-100"
+                 x-transition:leave="transition ease-in duration-100"
+                 class="absolute right-0 z-50 mt-2 w-52 origin-top-right rounded-xl bg-white border border-gray-100 shadow-[0_10px_25px_-5px_rgba(0,0,0,0.1),0_8px_10px_-6px_rgba(0,0,0,0.1)] focus:outline-none" 
+                 style="display: none;">
+                
+                <div class="p-1.5">
+                    <div class="px-3 py-2 text-[11px] font-bold text-gray-400 uppercase tracking-wider">Select Format</div>
+                    
+                    {% for format in view.export_formats %}
+                        <button 
+                            type="button"
+                            hx-post="{% export_url format %}"
+                            hx-target="#htmx-table-export"
+                            @click="open = false"
+                            class="flex w-full items-center justify-between px-3 py-2 text-sm text-gray-700 rounded-lg hover:bg-slate-50 hover:text-indigo-600 transition-colors group">
+                            
+                            <div class="flex items-center gap-3">
+                                <div class="flex h-8 w-8 items-center justify-center rounded-md  bg-gray-50 group-hover:bg-white group-hover:border-indigo-100 shadow-sm">
+                                    <span class="text-sm font-black text-gray-500 group-hover:text-indigo-500">{{ format|slice:":3" }}</span>
+                                </div>
+                                <span>Export</span>
+                            </div>
+    
+                            <span class="text-sm text-gray-400 font-mono">.{{ format }}</span>
+                        </button>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+</div>

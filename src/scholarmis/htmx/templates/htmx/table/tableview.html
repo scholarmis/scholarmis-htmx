@@ -1,0 +1,25 @@
+{% load render_table from django_tables2 %}
+{% load django_tables2 %}
+{% load humanize %}
+
+<div id="htmx-table-export"></div>
+
+<div id="htmx-table" class="htmx-table relative flex flex-col border border-gray-200 rounded-xl shadow-lg bg-white overflow-auto transition-[height] duration-300">
+
+    {% include "htmx/loader/loader.html" %}
+    <div class="flex-none z-30 flex flex-col">
+        {% include "htmx/filter/filter.html" %}
+    </div>
+
+    <div class="flex-grow overflow-x-auto overflow-y-auto">
+        <div id="htmx-data-container" class="htmx-data-container relative min-h-[200px]">
+            {% include "htmx/table/table.html" with table=table %}
+        </div>
+    </div>
+
+</div>
+
+
+{% include "htmx/modal/confirm.html" %}
+{% include "htmx/menu/contextmenu.html" %}
+

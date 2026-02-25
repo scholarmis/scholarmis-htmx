@@ -1,0 +1,21 @@
+{% extends "htmx/download/base.html" %}
+
+{% block htmx_download_content %}
+<div class="fixed bottom-8 left-8 z-[9999] flex items-center gap-4 min-w-[320px] max-w-sm p-4 pr-10 bg-gray-900/90 backdrop-blur-md border border-white/10 rounded-xl shadow-2xl animate-slide-in-up">
+        
+    <div class="flex-shrink-0 flex items-center justify-center">
+        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+            <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clip-rule="evenodd"></path>
+        </svg>
+    </div>
+
+    <div class="flex flex-col flex-grow">
+        <p class="text font-semibold text-white tracking-wide">Download Failed</p>
+        <p class="text-sm text-gray-400 font-normal truncate">{{error}}</p>
+    </div>
+
+    <button class="text-sm font-bold text-emerald-400 uppercase hover:text-emerald-300 transition-colors" onclick="this.closest('#htmx-download').innerHTML=''">
+        Dismiss
+    </button>
+</div>
+{% endblock  %}

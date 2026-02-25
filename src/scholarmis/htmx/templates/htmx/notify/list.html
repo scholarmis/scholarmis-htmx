@@ -1,0 +1,7 @@
+{% for notification in notifications %}
+    {% include "htmx/notify/item.html" with notification=notification%}
+{% empty %}
+    <div class="p-8 text-center text-slate-400 text-sm empty-htmx-notification-list">No new notifications</div>
+{% endfor %}
+
+{% include "htmx/notify/indicator.html" %}

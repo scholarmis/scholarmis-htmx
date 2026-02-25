@@ -1,0 +1,49 @@
+<div class="sticky left-0 bottom-0 z-30 w-full flex items-center justify-between px-4 py-4 bg-gray-100 border-t border-gray-200">
+    
+    <div class="hidden sm:block">
+        <p class="text-sm text-gray-700">
+            Page <span class="font-medium">{{ page_obj.number }}</span> of <span class="font-medium">{{ paginator.num_pages }}</span>
+        </p>
+    </div>
+
+    {% if is_paginated %}
+    <nav class="inline-flex items-center -space-x-px shadow-sm bg-white rounded-md" aria-label="Pagination">
+        
+        {% if page_obj.has_previous %}
+        <button hx-get="?page={{ page_obj.previous_page_number }}&{{ url_params }}"
+                hx-target="#htmx-data-loader"
+                hx-indicator="#htmx-data-container"
+                class="p-2 leading-tight text-gray-500 border border-gray-300 rounded-l-lg hover:bg-gray-100 hover:text-gray-700 transition-colors">
+                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                    <path d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z" />
+                </svg>
+        </button>
+        {% endif %}
+
+        {% for p in paginator.page_range %}
+            {# Basic eliding logic: show current, first, last, and neighbors #}
+            {% if p == page_obj.number or p == 1 or p == paginator.num_pages or p|add:"-2" < page_obj.number and p|add:"2" > page_obj.number %}
+                <button hx-get="?page={{ p }}&{{ url_params }}"
+                        hx-target="#htmx-data-loader" 
+                        hx-indicator="#htmx-data-container"
+                        class="px-4 py-2 leading-tight border transition-colors {% if p == page_obj.number %}bg-indigo-600 border-indigo-600 text-white z-10 shadow-sm{% else %}text-gray-500 border-gray-300 hover:bg-gray-100 hover:text-gray-700{% endif %}">
+                    {{ p }}
+                </button>
+            {% elif p == page_obj.number|add:"-3" or p == page_obj.number|add:"3" %}
+                <span class="px-3 py-2 leading-tight text-gray-500 border border-gray-300">...</span>
+            {% endif %}
+        {% endfor %}
+
+        {% if page_obj.has_next %}
+        <button hx-get="?page={{ page_obj.next_page_number }}&{{ url_params }}"
+                hx-target="#htmx-data-loader"
+                hx-indicator="#htmx-data-container"
+                class="p-2 leading-tight text-gray-500 border border-gray-300 rounded-r-lg hover:bg-gray-100 hover:text-gray-700 transition-colors">
+            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                <path d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" />
+            </svg>
+        </button>
+        {% endif %}
+    </nav>
+    {% endif %}
+</div>

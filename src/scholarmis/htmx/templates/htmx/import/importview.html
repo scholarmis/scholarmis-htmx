@@ -1,0 +1,68 @@
+{% load crispy_forms_tags %}
+
+<form 
+	hx-post="{{ request.path }}" 
+	hx-target="#htmx-data-import" 
+	hx-swap="outerHTML"
+	hx-indicator="#htmx-indicator"
+	hx-encoding="multipart/form-data">
+	{% csrf_token %}
+
+
+	<div class="px-8 py-6 border-b border-gray-200 flex justify-between items-center">
+		<div>
+			<h2 class="text-lg font-semibold text-gray-900">Import Form</h2>
+		</div>
+		
+		<div class="flex items-center gap-2">
+			<button 
+				hx-get="{{request.path}}?{{ view.export_trigger_param }}=template" 
+				hx-push-url="false" 
+				class="btn btn-sm btn-primary">
+				Download Template
+			</button>
+		</button>
+
+			<div id="htmx-indicator" class="htmx-indicator">
+				<svg class="animate-spin h-5 w-5 text-blue-600" viewBox="0 0 24 24">
+					<circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4" fill="none"></circle>
+					<path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+				</svg>
+			</div>
+		</div>
+	</div>
+
+	<div class="flex items-start gap-3 px-8 py-8">
+		<div class="mt-1 text-blue-600">
+			<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg>
+		</div>
+		<div>
+			<p class="text-sm text-gray-700">
+				It is <strong>strongly recommended</strong> to use the Excel template for a safe data import.
+			</p>
+			<p class="mt-2 text-xs font-bold text-gray-500 uppercase tracking-wider">Notice:</p>
+			<ul class="mt-1 text-sm text-gray-600 list-disc list-inside">
+				<li>Column headers <strong>must not</strong> be renamed.</li>
+			</ul>
+		</div>
+	</div>
+
+	<div class="px-8 py-4">
+		<div class="max-w-2xl">
+			<div class="space-y-4 text-gray-700">
+				{{ form|crispy }}
+			</div>
+		</div>
+	</div>
+
+	<div class="flex gap-3 px-8 py-4 bg-gray-100 border-t border-gray-200">
+		<button type="submit" class="btn btn-primary">
+			Import
+		</button>
+		{% if cancel_url %}
+			<a href="{{cancel_url}}"  class="btn">
+				Cancel
+			</a>
+		{% endif %}
+	</div>
+</form>

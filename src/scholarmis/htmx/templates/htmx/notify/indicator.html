@@ -1,0 +1,7 @@
+<div id="htmx-notification-indicator" class="htmx-notification-indicator" hx-swap-oob="true">
+    {% if unread_count > 0 %}
+        <span class="absolute -top-0.5 -right-0.5 flex items-center justify-center min-w-[1.25rem] h-5 px-1 bg-indigo-600 border-2 border-white text-white text-[10px] font-bold rounded-full">
+            {% if unread_count > 10 %}10+{% else %}{{ unread_count }}{% endif %}
+        </span>
+    {% endif %}
+</div>

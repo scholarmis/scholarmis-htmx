@@ -1,0 +1,36 @@
+<div id="htmx-modal" hx-swap-oob="true">
+    <div
+        x-data="{ open: true }" 
+        class="modal" 
+        :class="{ 'modal-open': open }"
+        x-show="open">
+        <div class="modal-box">
+            <button @click="open = false" class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</button>
+            
+            <h3 class="text-lg font-bold flex items-center gap-2">
+                {% if modal.icon %}<i class="{{ modal.icon }}"></i>{% endif %}
+                {{ modal.title }}
+            </h3>
+
+            <div class="py-4">
+                {% if modal_template_name %}
+                    {% include modal_template_name %}
+                {% else %}
+                    <p>No content provided.</p>
+                {% endif %}
+            </div>
+
+            <div class="modal-action">
+                <button type="button" @click="open = false" class="btn"> 
+                    {{ modal.cancel_text|default:"Close" }}
+                </button>
+                
+                {% if modal.show_save %}
+                    <button type="submit" form="modal-form" class="btn btn-primary">
+                        {{ modal.save_text|default:"Save" }}
+                    </button>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>

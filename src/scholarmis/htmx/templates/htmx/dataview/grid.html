@@ -1,0 +1,42 @@
+{% load htmx %}
+
+<div class="pt-8 px-8">
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+        {% for object in object_list %}
+            <div class="group p-6 bg-white border border-gray-100 rounded-lg shadow-sm hover:shadow-md transition-shadow flex flex-col justify-between">
+                <div>
+                    <div class="flex items-center text-[10px] text-gray-500 mb-2 space-x-1">
+                        <span class="font-bold text-gray-700 uppercase tracking-wider">{{ object|verbose_name }}</span>
+                        <span>›</span>
+                        <span class="truncate">{{ object|get_attr:primary_field }}</span>
+                    </div>
+
+                    <h3 class="text-lg text-blue-800 font-semibold mb-3 group-hover:text-blue-600">
+                        <a href="{{ object|object_url:resource_url }}" class="block">
+                            {% for field in display_config.title_fields %}
+                                {{ object|get_attr_display:field }}
+                                {% if not forloop.last %}<span class="text-gray-300 mx-1">-</span>{% endif %}
+                            {% endfor %}
+                        </a>
+                    </h3>
+
+                    <div class="flex flex-wrap items-center text-sm text-gray-600 gap-y-1">
+                        {% for field_name in display_config.snippet_fields %}
+                            <span class="inline-block">
+                                {{ object|get_attr_display:field_name }}
+                            </span>
+                            {% if not forloop.last %} 
+                                <span class="mx-2 text-gray-400" aria-hidden="true">&middot;</span> 
+                            {% endif %}
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        {% empty %}
+            <div class="col-span-full py-20 text-center">
+                <p class="text-gray-500 italic text-lg">No data found.</p>
+            </div>
+        {% endfor %}
+    </div>
+</div>
+{% include "htmx/dataview/pagination.html" %}

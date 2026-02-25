@@ -1,0 +1,51 @@
+<div id="htmx-task" hx-swap-oob="true" class="bg-white border border-gray-200 rounded-xl shadow-sm p-12">
+    <div class="flex items-center justify-between mb-2">
+        <div class="flex items-center gap-2">
+            {% if status == 'FAILURE' %}
+                <span class="flex h-2 w-2 rounded-full bg-red-500"></span>
+                <span class="text font-medium text-red-700">{{ message }}</span>
+            {% elif status == 'SUCCESS' %}
+                <span class="flex h-2 w-2 rounded-full bg-green-500"></span>
+                <span class="text font-medium text-gray-900">{{ message }}</span>
+            {% else %}
+                <span class="relative flex h-2 w-2">
+                    <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-blue-400 opacity-75"></span>
+                    <span class="relative inline-flex rounded-full h-2 w-2 bg-blue-600"></span>
+                </span>
+                <span class="text font-medium text-gray-900 leading-none">{{ message }}</span>
+            {% endif %}
+        </div>
+        
+        {% if progress %}
+            <span class="text-sm font-semibold tabular-nums text-gray-500">{{ progress }}%</span>
+        {% endif %}
+    </div>
+
+    <div class="w-full bg-gray-100 rounded-full h-3 overflow-hidden">
+        <div class="h-full rounded-full transition-all duration-700 ease-in-out
+                    {% if status == 'FAILURE' %}bg-red-500
+                    {% elif status == 'SUCCESS' %}bg-green-500
+                    {% else %}bg-blue-600 shadow-[0_0_8px_rgba(37,99,235,0.4)]{% endif %}" 
+             style="width: {{ progress }}%">
+        </div>
+    </div>
+
+    {% if status == 'SUCCESS' %}
+    <div class="mt-4 flex items-center justify-between px-3 py-2 bg-green-50 rounded-xl border border-green-100 animate-in slide-in-from-top-1">
+        <div class="flex items-center gap-2 text-green-700 text-sm font-medium">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"></path></svg>
+            Process completed
+        </div>
+        <a href="{{ action_url }}" 
+           class="btn btn-sm btn-success text-white">
+            View Results
+        </a>
+    </div>
+
+    {% elif status == 'FAILURE' %}
+    <div class="mt-3 flex items-start gap-2 text-sm text-red-600 px-1 animate-in shake-1">
+        <svg class="w-4 h-4 mt-0.5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+        <span>Task failed. Please check the logs for details.</span>
+    </div>
+    {% endif %}
+</div>

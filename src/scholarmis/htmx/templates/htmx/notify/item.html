@@ -1,0 +1,44 @@
+{% load i18n %}
+
+<div hx-get="{% url 'htmx:mark_as_read' notification.pk %}"
+     hx-target="this"
+     hx-swap="outerHTML"
+     hx-trigger="click"
+     class="relative p-4 border-b border-slate-50 transition-all duration-200 cursor-pointer group
+            {% if notification.unread %}bg-indigo-50/40 hover:bg-indigo-50/60{% else %}bg-white hover:bg-slate-50{% endif %}
+            [&:class.htmx-request]:opacity-50"
+     role="button">
+    
+    <div class="flex gap-3">
+        {% if notification.unread %}
+            <div class="mt-1.5 flex-shrink-0 w-2 h-2 bg-indigo-600 rounded-full"></div>
+        {% else %}
+            <div class="mt-1.5 flex-shrink-0 w-2 h-2 bg-transparent"></div>
+        {% endif %}
+
+        <div class="flex-1 flex flex-col space-y-1">
+            <div class="flex justify-between items-start gap-4">
+                <span class="text-sm {% if notification.unread %}font-semibold{% else %}font-medium{% endif %} text-slate-800 leading-tight">
+                    {{ notification.verb }}
+                </span>
+                <span class="text-[12px] text-slate-400 whitespace-nowrap font-medium tracking-wider">
+                    {{ notification.timestamp|timesince }} ago
+                </span>
+            </div>
+
+            {% if notification.description %}
+                <div class="text-sm text-slate-500 line-clamp-2 leading-relaxed">
+                    {{ notification.description|striptags }}
+                </div>
+            {% endif %}
+        </div>
+    </div>
+
+    <div id="htmx-notification-indicator" class="htmx-notification-indicator" hx-swap-oob="true">
+        {% if unread_count > 0 %}
+            <span class="absolute -top-1 -right-1 flex items-center justify-center min-w-[1.25rem] h-5 px-1.5 bg-indigo-600 border-2 border-white text-white text-[10px] font-bold rounded-full">
+                {{ unread_count }}
+            </span>
+        {% endif %}
+    </div>
+</div>

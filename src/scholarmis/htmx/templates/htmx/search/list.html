@@ -1,0 +1,41 @@
+{% load htmx %}
+<div id="search-results-container" class="animate-in fade-in slide-in-from-bottom-2 duration-300">
+    <div class="d-flex justify-content-between align-items-center mb-4 pb-3 border-bottom">
+        <div class="text-secondary small">
+            Found <span class="text-dark fw-semibold">{{ object_list.count }}</span> result{{ object_list.count|pluralize }} 
+            {% if query %}for <span class="text-primary fw-bold">"{{ query }}"</span>{% endif %}
+        </div>
+    </div>
+
+    {% for object in object_list %}
+    <div class="group mb-8 pb-6 border-b border-gray-50 last:border-0">
+        <div class="flex items-center text-xs text-gray-500 mb-1 space-x-1">
+            <span class="font-medium text-gray-700 uppercase">{{ object|verbose_name }}</span>
+            <span>›</span>
+            <span>{{ object|get_attr:primary_field }}</span>
+        </div>
+
+        <h3 class="text-xl text-blue-800 font-normal mb-1 group-hover:underline">
+            <a href="{{ object|object_url:resource_url }}" class="block">
+                {% for field in display_config.title_fields %}
+                    {{ object|get_attr_display:field|highlight_search:query }}
+                    {% if not forloop.last %}<span class="text-gray-300 mx-1">-</span>{% endif %}
+                {% empty %}
+                    {{ object|highlight_search:query }}
+                {% endfor %}
+            </a>
+        </h3>
+
+        <div class="flex flex-wrap items-center text-sm text-gray-600 leading-relaxed">
+            {% for field_name in display_config.snippet_fields %}
+                <span>
+                    {{ object|get_attr_display:field_name|highlight_search:query }}
+                </span>
+                {% if not forloop.last %} 
+                    <span class="mx-2 text-gray-300" aria-hidden="true">&middot;</span> 
+                {% endif %}
+            {% endfor %}
+        </div>
+    </div>
+    {% endfor %}
+</div>

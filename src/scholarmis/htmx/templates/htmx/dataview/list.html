@@ -1,0 +1,38 @@
+{% load htmx %}
+
+<div class="pt-8 px-8">
+    {% for object in object_list %}
+        <div class="group mb-8 pb-6 border-b border-gray-50 last:border-0">
+            <div class="flex items-center text-xs text-gray-500 mb-1 space-x-1">
+                <span class="font-medium text-gray-700 uppercase">{{ object|verbose_name }}</span>
+                <span>›</span>
+                <span>{{ object|get_attr:primary_field }}</span>
+            </div>
+
+            <h3 class="text-xl text-blue-800 font-normal mb-1 group-hover:underline">
+                <a href="{{ object|object_url:resource_url }}" class="block">
+                    {% for field in display_config.title_fields %}
+                        {{ object|get_attr_display:field }}
+                        {% if not forloop.last %}<span class="text-gray-300 mx-1">-</span>{% endif %} 
+                    {% endfor %}
+                </a>
+            </h3>
+
+            <div class="flex flex-wrap items-center text-sm text-gray-600 leading-relaxed">
+                {% for field_name in display_config.snippet_fields %}
+                    <span>
+                        {{ object|get_attr_display:field_name }}
+                    </span>
+                    {% if not forloop.last %} 
+                        <span class="mx-2 text-gray-300" aria-hidden="true">&middot;</span> 
+                    {% endif %}
+                {% endfor %}
+            </div>
+        </div>
+        {% empty %}
+        <div class="py-20 text-center">
+            <p class="text-gray-500">No data found.</p>
+        </div>
+    {% endfor %}
+</div>
+{% include "htmx/dataview/pagination.html" %}

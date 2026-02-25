@@ -1,0 +1,66 @@
+{% if bulk_actions %}
+
+<div x-show="selected.length > 0"
+    x-transition:enter="transition ease-out duration-200"
+    x-transition:enter-start="opacity-0 -translate-y-2"
+    x-transition:enter-end="opacity-100 translate-y-0"
+    class="sticky top-[41px] z-20 flex items-center justify-between gap-4 bg-indigo-50 border-b border-indigo-50 shadow-sm p-2 h-[52px]">
+    <div class="flex items-center gap-2 pl-2">
+        <div class="flex h-6 w-6 items-center justify-center rounded-full bg-indigo-100 text-xs font-bold text-indigo-700">
+            <span x-text="selected.length"></span>
+        </div>
+        <span class="text-sm font-semibold text-slate-700 tracking-wider">Selected</span>
+    </div>
+
+
+    <form 
+        x-data="handleBulkAction()"
+        hx-post="{{ request.path }}"
+        hx-target="#htmx-data-container"
+        hx-indicator="#htmx-data-loader"
+        @htmx:confirm="handleConfirm"
+        class="flex items-center gap-2">
+        
+        <template x-for="id in selected" :key="id">
+            <input type="hidden" name="selected_ids" :value="id">
+        </template>
+        
+
+        <div class="relative">
+            <select  
+                required
+                x-ref="actionSelect" 
+                name="bulk_action" 
+                @change.stop  
+                class="appearance-none h-9 pl-3 pr-8 text-sm bg-slate-50 border border-slate-200 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-all cursor-pointer">
+                
+                <option value="" disabled selected>Choose action</option>
+                {% for action in bulk_actions %}
+                    <option 
+                        value="{{ action.name }}"
+                        data-confirm="{{ action.can_confirm|lower }}"
+                        data-message="{{ action.confirm }}">
+                        {{ action.label }}
+                    </option>
+                {% endfor %}
+            </select>
+
+            <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-slate-400">
+                <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                </svg>
+            </div>
+            <div id="bulkaction-form-loader" class="htmx-indicator">
+                <svg width="24" height="24" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" class="spinner-svg">
+                    <circle class="spinner-track" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="3" fill="none" opacity="0.25" />
+                    <path class="spinner-arc" d="M12 2a10 10 0 0 1 10 10" stroke="currentColor" stroke-width="3" stroke-linecap="round" fill="none" />
+                </svg>
+            </div>
+        </div>
+
+        <button type="submit" 
+            class="h-9 px-3 bg-indigo-600 hover:bg-indigo-700 text-white text-sm font-medium rounded-lg transition-colors shadow-sm active:transform active:scale-95">Apply</button>
+    </form>
+    
+</div>
+{% endif %}

@@ -1,0 +1,48 @@
+{% load django_tables2 %}
+
+<div class="sticky left-0 bottom-0 z-30 w-full flex items-center justify-between px-4 py-4 bg-gray-100 border-t border-gray-200">
+        
+	<div class="hidden sm:block">
+		<p class="text-sm text-gray-700">
+			Page <span class="font-medium">{{ table.page.number }}</span> of <span class="font-medium">{{ table.paginator.num_pages }}</span>
+		</p>
+	</div>
+
+	{% if table.page and table.paginator.num_pages > 1 %}
+	<nav class="inline-flex items-center -space-x-px shadow-sm bg-white rounded-md" aria-label="Pagination">
+		{% if table.page.has_previous %}
+		<button hx-get="{% querystring table.prefixed_page_field=table.page.previous_page_number %}"
+				hx-target="#htmx-data-container"
+				hx-indicator="#htmx-data-loader"
+				class="p-2 leading-tight text-gray-500 border border-gray-300 rounded-l-lg hover:bg-gray-100 hover:text-gray-700 transition-colors">
+				<svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+					<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z" />
+				</svg>
+		</button>
+		{% endif %}
+
+		{% for p in table.page|table_page_range:table.paginator %}
+			{% if p == '...' %}
+				<span class="px-3 py-2 leading-tight text-gray-500 border border-gray-300">...</span>
+			{% else %}
+				<button hx-get="{% querystring table.prefixed_page_field=p %}"
+						hx-target="#htmx-data-container" 
+						hx-indicator="#htmx-data-loader"
+						class="px-4 py-2 leading-tight border transition-colors {% if p == table.page.number %}bg-indigo-600 border-indigo-600 text-white z-10 shadow-sm{% else %}text-gray-500 border-gray-300 hover:bg-gray-100 hover:text-gray-700{% endif %}">
+					{{ p }}
+				</button>
+			{% endif %}
+		{% endfor %}
+
+		{% if table.page.has_next %}
+		<button hx-get="{% querystring table.prefixed_page_field=table.page.next_page_number %}"
+				hx-target="#htmx-data-container"
+				hx-indicator="#htmx-data-loader"
+				class="p-2 leading-tight text-gray-500 border border-gray-300 rounded-r-lg hover:bg-gray-100 hover:text-gray-700 transition-colors">
+			<svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+				<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z" />
+			</svg>
+		{% endif %}
+	</nav>
+	{% endif %}
+</div>

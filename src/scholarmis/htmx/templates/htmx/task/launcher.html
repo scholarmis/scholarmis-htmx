@@ -1,0 +1,43 @@
+<div id="htmx-task-container"
+     hx-ext="ws"
+     ws-connect="{{ task_ws_url }}">
+
+    <div id="htmx-task" class="bg-white border border-gray-200 rounded-xl shadow-sm p-12">
+
+        <!-- Header -->
+        <div class="flex items-center justify-between mb-4">
+            <div>
+                <h3 class="text font-semibold text-gray-800 mb-4">
+                    Processing Request
+                </h3>
+                <p class="text-sm text-gray-500 mb-2">
+                    Please wait while the system completes the task
+                </p>
+            </div>
+
+            <span class="text font-medium text-blue-600 animate-pulse"
+                  id="task-status">
+                Initializing…
+            </span>
+        </div>
+
+        <!-- Progress meta -->
+        <div class="flex justify-between items-center mb-2">
+            <span class="text-sm text-gray-600" id="task-message">
+                Preparing resources
+            </span>
+            <span class="text-sm font-medium text-gray-700"
+                  id="task-percentage">
+                0%
+            </span>
+        </div>
+
+        <!-- Progress bar -->
+        <div class="w-full bg-gray-100 rounded-full h-3 overflow-hidden">
+            <div class="bg-blue-600 h-3 rounded-full transition-all duration-500 ease-out"
+                 id="task-progress"
+                 style="width: 0%">
+            </div>
+        </div>
+    </div>
+</div>
