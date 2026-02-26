@@ -1,22 +1,40 @@
 {% extends "htmx/download/base.html" %}
 
 {% block htmx_download_content %}
-    <div class="fixed bottom-8 left-8 z-[9999] flex items-center gap-4 min-w-[320px] max-w-sm p-4 bg-gray-900/90 backdrop-blur-md border border-white/10 rounded-xl shadow-2xl animate-slide-in-up">
-        
-        <div class="flex-shrink-0 flex items-center justify-center">
-            <svg class="animate-spin h-5 w-5 text-emerald-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                <circle class="opacity-20" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-                <path class="opacity-90" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+<div class="fixed bottom-8 left-8 z-[9999] w-full max-w-md animate-slide-in-up">
+    
+    <div class="relative flex gap-4 p-5 bg-white border border-gray-200 rounded-2xl shadow-xl">
+
+        <!-- Status Icon -->
+        <div class="flex items-start">
+            <div class="flex items-center justify-center w-10 h-10 rounded-xl bg-emerald-100">
+                <svg class="animate-spin h-5 w-5 text-emerald-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                    <circle class="opacity-20" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                    <path class="opacity-90" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z">
+                    </path>
+                </svg>
+            </div>
+        </div>
+
+        <!-- Content -->
+        <div class="flex-1 pr-6">
+            <h4 class="text-sm font-semibold text-gray-900">
+                Preparing File
+            </h4>
+            <p class="mt-1 text-sm text-gray-600">
+                Your file is being securely generated. This may take a few moments.
+            </p>
+        </div>
+
+        <!-- Close Button -->
+        <button type="button"
+                class="absolute top-4 right-4 text-gray-400 hover:text-gray-700 transition-colors"
+                onclick="this.closest('.fixed').remove()">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
             </svg>
-        </div>
-
-        <div class="flex flex-col flex-grow">
-            <p class="text font-semibold text-white tracking-wide">Exporting file...</p>
-            <p class="text-sm text-gray-400 font-normal">This may take few monents...</p>
-        </div>
-
-        <button class="text-sm font-bold text-emerald-400 uppercase hover:text-emerald-300 transition-colors" onclick="this.closest('#htmx-download').innerHTML=''">
-            Dismiss
         </button>
+
     </div>
+</div>
 {% endblock %}

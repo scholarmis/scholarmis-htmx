@@ -14,7 +14,7 @@ class HTMXNotify(Notify):
     
     def __init__(self, users, tenant_schema=None, template=None):
         super().__init__(users, tenant_schema)
-        self.notification_template = template or get_template_name("websocket.html",app_name)
+        self.notification_template = template or get_template_name("notify/websocket.html",app_name)
 
     def broadcast(self, user, notification: Notification):
         

@@ -1,33 +1,55 @@
 {% extends "htmx/download/base.html" %}
 
 {% block htmx_download_content %}
-<div class="fixed bottom-8 left-8 z-[9999] flex items-center gap-4 min-w-[320px] max-w-sm p-4 pr-10 bg-gray-900/90 backdrop-blur-md border border-white/10 rounded-xl shadow-2xl animate-slide-in-up">
-        
-    <div class="flex-shrink-0 flex items-center justify-center w-10 h-10 bg-emerald-500/20 rounded-xl border border-emerald-500/50">
-        <svg class="w-5 h-5 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-        </svg>
+<div class="fixed bottom-8 left-8 z-[9999] w-full max-w-md animate-slide-in-up">
+    
+    <div class="relative flex gap-4 p-5 bg-white border border-gray-200 rounded-2xl shadow-xl">
+
+        <!-- Status Icon -->
+        <div class="flex items-start">
+            <div class="flex items-center justify-center w-10 h-10 rounded-xl bg-emerald-100">
+                <svg class="w-5 h-5 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                          d="M9 12l2 2l4 -4M12 3a9 9 0 100 18a9 9 0 000-18z" />
+                </svg>
+            </div>
+        </div>
+
+        <!-- Content -->
+        <div class="flex-1 pr-6">
+            <h4 class="text-sm font-semibold text-gray-900">
+                File Ready for Download
+            </h4>
+            <p class="mt-1 text-sm text-gray-600">
+                Your requested document has been successfully generated and is ready for download.
+                Click the button below to save it to your device.
+            </p>
+
+            <!-- Action Button -->
+            <div class="mt-4">
+                <a href="{{ file_url }}"
+                   download
+                   class="inline-flex items-center gap-2 px-4 py-2 text-sm font-medium text-white bg-emerald-600 rounded-xl hover:bg-emerald-500 transition-all duration-200 shadow-sm active:scale-95">
+                    
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+                    </svg>
+                    
+                    Download File
+                </a>
+            </div>
+        </div>
+
+        <!-- Close Button -->
+        <button type="button"
+                class="absolute top-4 right-4 text-gray-400 hover:text-gray-700 transition-colors"
+                onclick="this.closest('.fixed').remove()">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                      d="M6 18L18 6M6 6l12 12" />
+            </svg>
+        </button>
+
     </div>
-
-    <div class="flex flex-col flex-grow">
-        <p class="text-sm font-semibold text-white tracking-wide">File is ready</p>
-    </div>
-
-    <a href="{{ file_url }}" 
-       download
-       class="flex-shrink-0 flex items-center gap-2 px-4 py-2 text-xs font-bold text-white bg-emerald-600 rounded-xl hover:bg-emerald-500 transition-all shadow-[0_0_20px_rgba(16,185,129,0.4)] active:scale-95">
-        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
-        </svg>
-        Download
-    </a>
-
-    <button type="button" 
-            class="absolute top-3 right-3 text-gray-400 hover:text-white hover:bg-white/10 p-1 rounded-lg transition-colors" 
-            onclick="this.parentElement.remove()">
-        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
-        </svg>
-    </button>
 </div>
 {% endblock  %}
