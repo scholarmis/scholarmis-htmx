@@ -18,7 +18,7 @@
 
                 {# Quick Search #}
                 {% if filter.form.q %}
-                <div class="relative w-full lg:w-96 group">
+                <div class="relative lg:w-96 group">
                     <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-gray-400 group-focus-within:text-indigo-500 transition-colors">
                         <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
@@ -29,7 +29,7 @@
                 {% endif %}
 
                 {# Action Buttons #}
-                <div class="flex items-center gap-3 ml-auto w-full sm:w-auto">
+                <div class="flex items-center gap-3 ml-auto sm:w-auto">
                     {% if per_page_options %}
                     <div class="flex items-center gap-2 border-r border-gray-100 pr-3">
                         <label class="hidden text-sm lg:block font-bold text-gray-600">Show</label>
