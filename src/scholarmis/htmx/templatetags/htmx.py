@@ -113,6 +113,14 @@ def htmx_modal(context):
 
 
 @register.inclusion_tag(
+    filename=get_template_name("modal/confirm.html", app_name),
+    takes_context=True
+)
+def htmx_confirm_modal(context):
+    return context
+
+
+@register.inclusion_tag(
     filename=get_template_name("import/importview.html", app_name),
     takes_context=True
 )
